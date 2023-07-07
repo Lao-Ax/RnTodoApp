@@ -1,6 +1,5 @@
-
 import { v4 as randomUuid } from 'uuid';
-import {TODO_ADDED, TODO_STATUS_CHANGED} from "./constants";
+import { TODO_ADDED, TODO_STATUS_CHANGED } from './constants';
 
 const initialState = [
   { id: 0, text: 'Learn React', completed: true },
@@ -21,7 +20,6 @@ export default function todosReducer(state = initialState, action) {
           return todo;
         }
         let newStatus = action.status ?? !todo.completed;
-
         return { ...todo, completed: newStatus };
       });
     }

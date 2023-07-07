@@ -1,19 +1,21 @@
 import { connect } from 'react-redux';
-import { Counter } from './Counter';
 import { bindActionCreators } from '@reduxjs/toolkit';
-import { increment } from '../actions';
-import { counterValue } from '../selectors';
+import { Todo } from './Todo';
+import { todoStatusChanged } from '../actions';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProp) {
   return {
-    value: counterValue(state),
+    todo: ownProp.todo,
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onPress: bindActionCreators(increment, dispatch),
+    onCompletedChange: bindActionCreators(
+      () => todoStatusChanged(ownProps.todo.id),
+      dispatch,
+    ),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+export default connect(mapStateToProps, mapDispatchToProps)(Todo);

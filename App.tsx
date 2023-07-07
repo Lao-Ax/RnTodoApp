@@ -1,8 +1,8 @@
 import React from 'react';
 import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { LearnReact } from './src/features/app/components/LearnReact';
 import CounterContainer from './src/features/counter/components/CounterContainer';
+import TodoList from './src/features/todos/components/TodosContainer';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -18,7 +18,8 @@ function App(): JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <CounterContainer />
-      <LearnReact isDarkMode={isDarkMode} backgroundStyle={backgroundStyle} />
+      <TodoList />
+      {/*<LearnReact isDarkMode={isDarkMode} backgroundStyle={backgroundStyle} />*/}
     </SafeAreaView>
   );
 }
