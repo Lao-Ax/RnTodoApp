@@ -13,10 +13,11 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist/es/constants';
+import { logger } from './customMIddleware';
 
 const persistConfig = {
   key: 'root',
-  storage: AsyncStorage,
+  storage: AsyncStorage, // TODO AP: Use MMKV storage
 };
 
 const rootReducer = combineReducers({
@@ -33,6 +34,6 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(logger),
 });
 export const persistor = persistStore(store);
