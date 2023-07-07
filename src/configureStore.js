@@ -1,16 +1,38 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { counterReducer } from './features/counter/reducer';
 import todosReducer from './features/todos/todosSlice';
 import { filterReducer } from './features/filters/filterSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistStore, persistReducer } from 'redux-persist';
+import { NAME as counterSate } from './features/counter/constants';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from 'redux-persist/es/constants';
 
-// Create a new Redux store with the `createStore` function,
-// and use the `counterReducer` for the update logic
-const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    todos: todosReducer,
-    filters: filterReducer,
-  },
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+};
+
+const rootReducer = combineReducers({
+  [counterSate]: counterReducer,
+  todos: todosReducer,
+  filters: filterReducer,
 });
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export { store };
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+export const persistor = persistStore(store);

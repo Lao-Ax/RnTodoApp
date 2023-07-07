@@ -1,8 +1,4 @@
-export const TODO_ADDED = "todos/todoAdded"
-export const TODO_STATUS_CHANGED = "todos/todoStatusChanged"
-export const TODO_DELETED = "todos/todoDeleted"
-export const STATUS_FILTER_CHANGED = "todos/statusFilterChanged"
-export const DELETE_ALL_COMPLETED = "todos/deleteAllCompleted"
+import {DELETE_ALL_COMPLETED, STATUS_FILTER_CHANGED, TODO_ADDED, TODO_DELETED, TODO_STATUS_CHANGED} from "./constants";
 
 
 export const todoAdded = (todoText) => ({

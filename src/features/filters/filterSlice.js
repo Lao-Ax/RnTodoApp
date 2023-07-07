@@ -1,4 +1,4 @@
-import { STATUS_FILTER_CHANGED } from './actions';
+import {STATUS_FILTER_CHANGED} from "./constants";
 
 const statuses = {
   ACTIVE: 'active',

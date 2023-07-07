@@ -1,6 +1,4 @@
-export const INCREMENTED = 'counter/incremented';
-export const DECREMENTED = 'counter/decremented';
-export const SET_COUNTER = 'counter/set';
+import { DECREMENTED, INCREMENTED, SET_COUNTER } from './constants';
 
 export const increment = () => ({
   type: INCREMENTED,

@@ -1,4 +1,6 @@
+import { NAME } from './constants';
+
 export const counterValue = (state) => {
-  console.log(`selector :: counterValue :: state = ${state.counter.value}`);
-  return state.counter.value;
+  console.log(`selector :: counterValue :: state = ${state[NAME].value}`);
+  return state[NAME].value;
 };

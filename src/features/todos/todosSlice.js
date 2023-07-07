@@ -1,5 +1,6 @@
-import { TODO_ADDED, TODO_STATUS_CHANGED } from './actions';
+
 import { v4 as randomUuid } from 'uuid';
+import {TODO_ADDED, TODO_STATUS_CHANGED} from "./constants";
 
 const initialState = [
   { id: 0, text: 'Learn React', completed: true },
