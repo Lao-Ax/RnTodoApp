@@ -1,13 +1,13 @@
 import { FlatList } from 'react-native';
 import Todo from './Todo';
 import { useSelector } from 'react-redux';
-import { selectTodos } from '../selectors';
+import { selectTodos, selectFilteredTodos } from '../selectors';
 import { todoCompleted, todoDeleted, todoStatusChanged } from '../actions';
 
 const keyExtractor = (item) => item.id;
 
 export default () => {
-  const todos = useSelector(selectTodos);
+  const todos = useSelector(selectFilteredTodos);
 
   const renderItem = ({ item }) => (
     <Todo

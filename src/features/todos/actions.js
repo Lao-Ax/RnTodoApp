@@ -1,6 +1,5 @@
 import {
   DELETE_ALL_COMPLETED,
-  STATUS_FILTER_CHANGED,
   TODO_ADDED,
   TODO_DELETED,
   TODO_STATUS_CHANGED,
@@ -23,11 +22,6 @@ export const todoStatusChanged = (id, status) => ({
 });
 
 export const todoCompleted = (id) => todoStatusChanged(id, true);
-
-export const statusFilterChanged = (status) => ({
-  type: STATUS_FILTER_CHANGED,
-  status,
-});
 
 export const deleteAllCompleted = () => ({
   type: DELETE_ALL_COMPLETED,

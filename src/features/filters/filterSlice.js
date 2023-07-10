@@ -1,6 +1,6 @@
-import {STATUS_FILTER_CHANGED} from "./constants";
+import { STATUS_FILTER_CHANGED } from './constants';
 
-const statuses = {
+export const statuses = {
   ACTIVE: 'active',
   ALL: 'all',
   COMPLETED: 'completed',
@@ -14,8 +14,7 @@ const initialState = {
 export function filterReducer(state = initialState, action) {
   switch (action.type) {
     case STATUS_FILTER_CHANGED: {
-      const newFilters = { ...state.filters, status: action.status };
-      return { ...state, filters: newFilters };
+      return { ...state, status: action.status };
     }
     default:
       return state;
