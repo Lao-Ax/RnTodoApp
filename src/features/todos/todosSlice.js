@@ -7,17 +7,15 @@ import {
 } from './constants';
 
 const initialState = [
-  { id: 0, text: 'Learn React', completed: true },
-  { id: 1, text: 'Learn Redux', completed: false, color: 'purple' },
-  { id: 2, text: 'Build something fun!', completed: false, color: 'blue' },
+  { id: '0', text: 'Learn React', completed: true },
+  { id: '1', text: 'Learn Redux', completed: false, color: 'purple' },
+  { id: '2', text: 'Build something fun!', completed: false, color: 'blue' },
 ];
 
 export default function todosReducer(state = initialState, action) {
   switch (action.type) {
     case TODO_ADDED: {
-      const todoText = action.todoText;
-      const newTodo = { id: randomUuid(), text: todoText, completed: false };
-      return [...state, newTodo];
+      return [...state, action.todo];
     }
     case TODO_STATUS_CHANGED: {
       const { id, status } = action;
@@ -35,11 +33,7 @@ export default function todosReducer(state = initialState, action) {
     }
     case TODOS_LOADED: {
       if (state.length < 3) {
-        const newLoadedTodos = action.todos.map((todo) => ({
-          ...todo,
-          id: randomUuid(),
-        }));
-        return [...state, ...newLoadedTodos];
+        return [...state, ...action.todos];
       } else {
         return state;
       }

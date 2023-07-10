@@ -17,8 +17,9 @@ import {
 import { logger } from './customMIddleware';
 
 const persistConfig = {
-  key: 'todos',
+  key: 'root',
   storage: AsyncStorage, // TODO AP: Use MMKV storage
+  blacklist: [counterSate],
 };
 
 const rootReducer = combineReducers({

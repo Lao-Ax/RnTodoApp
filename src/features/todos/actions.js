@@ -6,7 +6,7 @@ import {
   TODOS_LOADED,
 } from './constants';
 
-export const todoAdded = (todoText) => ({ type: TODO_ADDED, todoText });
+export const todoAdded = (todo) => ({ type: TODO_ADDED, todo });
 
 export const todoDeleted = (id) => ({ type: TODO_DELETED, id });
 

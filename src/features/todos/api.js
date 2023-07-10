@@ -8,10 +8,14 @@ const client = {
         () =>
           resolve({
             todos: [
-              { text: 'Learn something new', completed: false },
-              { text: 'Kill all humans', completed: true },
-              { text: 'Learn React', completed: false },
-              { text: 'Learn Redux', completed: false },
+              {
+                text: 'Learn something new',
+                completed: false,
+                id: randomUuid(),
+              },
+              { text: 'Kill all humans', completed: true, id: randomUuid() },
+              { text: 'Learn React', completed: false, id: randomUuid() },
+              { text: 'Learn Redux', completed: false, id: randomUuid() },
             ],
           }),
         4000,
@@ -27,9 +31,11 @@ const client = {
             status: 201,
             todo: {
               ...todo.todo,
+              completed: false,
+              id: randomUuid(),
             },
           }),
-        6000,
+        2000,
       );
     });
   },
@@ -45,6 +51,6 @@ export function saveNewTodo(text) {
   return async function (dispatch, getState) {
     const initialTodo = { text };
     const response = await client.post('/fakeApi/todos', { todo: initialTodo });
-    dispatch(todoAdded(response.todo.text));
+    dispatch(todoAdded(response.todo));
   };
 }
