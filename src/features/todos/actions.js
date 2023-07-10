@@ -1,9 +1,14 @@
-import {DELETE_ALL_COMPLETED, STATUS_FILTER_CHANGED, TODO_ADDED, TODO_DELETED, TODO_STATUS_CHANGED} from "./constants";
-
+import {
+  DELETE_ALL_COMPLETED,
+  STATUS_FILTER_CHANGED,
+  TODO_ADDED,
+  TODO_DELETED,
+  TODO_STATUS_CHANGED,
+} from './constants';
 
 export const todoAdded = (todoText) => ({
   type: TODO_ADDED,
-  todoText
+  todoText,
 });
 
 export const todoDeleted = (id) => ({
@@ -14,8 +19,10 @@ export const todoDeleted = (id) => ({
 export const todoStatusChanged = (id, status) => ({
   type: TODO_STATUS_CHANGED,
   id,
-  status
+  status,
 });
+
+export const todoCompleted = (id) => todoStatusChanged(id, true);
 
 export const statusFilterChanged = (status) => ({
   type: STATUS_FILTER_CHANGED,

@@ -1,8 +1,28 @@
 import { FlatList } from 'react-native';
-import TodoContainer from './TodoContainer';
+import Todo from './Todo';
+import { useSelector } from 'react-redux';
+import { selectTodos } from '../selectors';
+import { todoCompleted, todoDeleted, todoStatusChanged } from '../actions';
 
-const renderItem = ({ item }) => <TodoContainer todo={item} />;
+const keyExtractor = (item) => item.id;
 
-export const TodoList = ({ todos }) => {
-  return <FlatList data={todos} renderItem={renderItem} />;
+export default () => {
+  const todos = useSelector(selectTodos);
+
+  const renderItem = ({ item }) => (
+    <Todo
+      todo={item}
+      onCompleteToggle={todoStatusChanged}
+      onCompletePress={todoCompleted}
+      onDelete={todoDeleted}
+    />
+  );
+
+  return (
+    <FlatList
+      data={todos}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+    />
+  );
 };

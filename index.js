@@ -9,6 +9,7 @@ import { persistor, store } from './src/configureStore';
 import { Provider } from 'react-redux';
 import React from 'react';
 import { PersistGate } from 'redux-persist/integration/react';
+import 'react-native-get-random-values';
 
 AppRegistry.registerComponent(appName, () => () => (
   <React.StrictMode>

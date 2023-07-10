@@ -1,22 +1,30 @@
 import React from 'react';
 import { Button, Switch, Text, View, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
 
-export const Todo = ({ todo, onDelete, onCompletedChange }) => {
+const Todo = ({ todo, onDelete, onCompleteToggle, onCompletePress }) => {
   const { text, completed } = todo;
+  const dispatch = useDispatch();
 
-  const handleCompletedChanged = (text) => {
-    onCompletedChange(text);
+  const handleCompeteToggle = () => {
+    dispatch(onCompleteToggle(todo.id));
+  };
+  const handleCompetePress = () => {
+    dispatch(onCompletePress(todo.id));
+  };
+  const handleDeletePress = () => {
+    dispatch(onDelete(todo.id));
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.todo}>
         <Text>{text}</Text>
-        <Switch value={completed} onChange={handleCompletedChanged} />
+        <Switch value={completed} onChange={handleCompeteToggle} />
       </View>
       <View style={styles.buttons}>
-        <Button title={'Delete'} onPress={onDelete} />
-        <Button title={'Completed'} onPress={handleCompletedChanged} />
+        <Button title={'Delete'} onPress={handleDeletePress} />
+        <Button title={'Completed'} onPress={handleCompetePress} />
       </View>
     </View>
   );
@@ -38,3 +46,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
 });
+
+export default Todo;
