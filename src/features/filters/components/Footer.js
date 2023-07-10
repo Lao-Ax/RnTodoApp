@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectUncompletedTodosLength } from '../../todos/selectors';
@@ -12,7 +12,10 @@ const Footer = () => {
   const dispatch = useDispatch();
   const todosRemaining = useSelector(selectUncompletedTodosLength);
   const { status } = useSelector(selectFilters);
-  const handleStatusChange = (status) => dispatch(statusFilterChanged(status));
+  const handleStatusChange = useCallback(
+    (status) => dispatch(statusFilterChanged(status)),
+    [status],
+  );
 
   // TODO AP: Use Container Components for all that staff
   return (
@@ -27,7 +30,7 @@ const styles = StyleSheet.create({
   container: {
     borderTopWidth: 2,
     backgroundColor: 'white',
-    padding: 10
+    padding: 10,
   },
 });
 

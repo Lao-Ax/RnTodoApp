@@ -1,5 +1,6 @@
 import { statuses } from '../filterSlice';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { memo } from 'react';
 
 const StatusFilter = ({ value: status, onChange }) => {
   const renderedFilters = Object.keys(statuses).map((key) => {
@@ -17,6 +18,7 @@ const StatusFilter = ({ value: status, onChange }) => {
     );
   });
 
+  console.log('@@@ render StatusFilter');
   return (
     <View style={styles.container}>
       <Text>Filter by Status</Text>
@@ -28,7 +30,7 @@ const StatusFilter = ({ value: status, onChange }) => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 10,
-      alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
   statusContainer: {
     paddingLeft: '10%',
@@ -37,8 +39,8 @@ const styles = StyleSheet.create({
   selected: {
     borderWidth: 1,
     borderColor: 'pink',
-    backgroundColor: 'lightpink'
+    backgroundColor: 'lightpink',
   },
 });
 
-export default StatusFilter;
+export default memo(StatusFilter);

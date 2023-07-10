@@ -1,5 +1,10 @@
 import { v4 as randomUuid } from 'uuid';
-import { TODO_ADDED, TODO_DELETED, TODO_STATUS_CHANGED } from './constants';
+import {
+  TODO_ADDED,
+  TODO_DELETED,
+  TODO_STATUS_CHANGED,
+  TODOS_LOADED,
+} from './constants';
 
 const initialState = [
   { id: 0, text: 'Learn React', completed: true },
@@ -27,6 +32,17 @@ export default function todosReducer(state = initialState, action) {
     case TODO_DELETED: {
       const { id: idToDelete } = action;
       return state.filter((todo) => todo.id !== idToDelete);
+    }
+    case TODOS_LOADED: {
+      if (state.length < 3) {
+        const newLoadedTodos = action.todos.map((todo) => ({
+          ...todo,
+          id: randomUuid(),
+        }));
+        return [...state, ...newLoadedTodos];
+      } else {
+        return state;
+      }
     }
     default:
       return state;

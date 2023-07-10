@@ -6,7 +6,7 @@ const Header = ({ onSubmit }) => {
   const dispatch = useDispatch();
   const [text, setText] = useState('');
   const handleSubmit = () => {
-    dispatch(onSubmit(text));
+    dispatch(onSubmit(text.trim()));
     setText('');
   };
 

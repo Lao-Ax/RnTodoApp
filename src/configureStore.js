@@ -4,6 +4,7 @@ import todosReducer from './features/todos/todosSlice';
 import { filterReducer } from './features/filters/filterSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
+import thunkMiddleware from 'redux-thunk';
 import { NAME as counterSate } from './features/counter/constants';
 import {
   FLUSH,
@@ -16,7 +17,7 @@ import {
 import { logger } from './customMIddleware';
 
 const persistConfig = {
-  key: 'root',
+  key: 'todos',
   storage: AsyncStorage, // TODO AP: Use MMKV storage
 };
 
@@ -34,6 +35,8 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(logger),
+    })
+      .concat(logger)
+      .concat(thunkMiddleware),
 });
 export const persistor = persistStore(store);

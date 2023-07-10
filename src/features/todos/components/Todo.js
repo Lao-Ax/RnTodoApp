@@ -16,6 +16,7 @@ const Todo = ({ todo, onDelete, onCompleteToggle, onCompletePress }) => {
     dispatch(onDelete(id));
   };
 
+  console.log('@@@ render TodoItem', text)
   return (
     <View style={styles.container}>
       <View style={styles.todo}>
