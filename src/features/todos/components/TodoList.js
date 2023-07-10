@@ -1,17 +1,17 @@
-import { FlatList } from 'react-native';
-import Todo from './Todo';
+import { FlatList, StyleSheet } from 'react-native';
+import Todo from './TodoContainer';
 import { useSelector } from 'react-redux';
-import { selectTodos, selectFilteredTodos } from '../selectors';
+import { selectFilteredTodoIds } from '../selectors';
 import { todoCompleted, todoDeleted, todoStatusChanged } from '../actions';
 
-const keyExtractor = (item) => item.id;
+const keyExtractor = (item) => item;
 
 export default () => {
-  const todos = useSelector(selectFilteredTodos);
+  const todos = useSelector(selectFilteredTodoIds);
 
   const renderItem = ({ item }) => (
     <Todo
-      todo={item}
+      todoId={item}
       onCompleteToggle={todoStatusChanged}
       onCompletePress={todoCompleted}
       onDelete={todoDeleted}
@@ -26,3 +26,7 @@ export default () => {
     />
   );
 };
+
+const styles = StyleSheet.create({
+  container: {},
+});

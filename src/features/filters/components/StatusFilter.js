@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   selected: {
     borderWidth: 1,
     borderColor: 'pink',
+    backgroundColor: 'lightpink'
   },
 });
 

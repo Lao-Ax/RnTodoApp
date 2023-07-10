@@ -14,6 +14,7 @@ const Footer = () => {
   const { status } = useSelector(selectFilters);
   const handleStatusChange = (status) => dispatch(statusFilterChanged(status));
 
+  // TODO AP: Use Container Components for all that staff
   return (
     <View style={styles.container}>
       <RemainingTodos count={todosRemaining} />
@@ -24,8 +25,9 @@ const Footer = () => {
 
 const styles = StyleSheet.create({
   container: {
+    borderTopWidth: 2,
     backgroundColor: 'white',
-      padding: 10
+    padding: 10
   },
 });
 

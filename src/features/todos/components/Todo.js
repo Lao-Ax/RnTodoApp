@@ -3,17 +3,17 @@ import { Button, Switch, Text, View, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 const Todo = ({ todo, onDelete, onCompleteToggle, onCompletePress }) => {
-  const { text, completed } = todo;
+  const { text, completed, id } = todo;
   const dispatch = useDispatch();
 
   const handleCompeteToggle = () => {
-    dispatch(onCompleteToggle(todo.id));
+    dispatch(onCompleteToggle(id));
   };
   const handleCompetePress = () => {
-    dispatch(onCompletePress(todo.id));
+    dispatch(onCompletePress(id));
   };
   const handleDeletePress = () => {
-    dispatch(onDelete(todo.id));
+    dispatch(onDelete(id));
   };
 
   return (
@@ -32,18 +32,18 @@ const Todo = ({ todo, onDelete, onCompleteToggle, onCompletePress }) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderBottomWidth: 0.5,
     borderColor: 'black',
+    backgroundColor: 'white',
   },
   todo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: 'white',
   },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: 'white',
   },
 });
 

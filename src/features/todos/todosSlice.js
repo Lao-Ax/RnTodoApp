@@ -15,11 +15,12 @@ export default function todosReducer(state = initialState, action) {
       return [...state, newTodo];
     }
     case TODO_STATUS_CHANGED: {
+      const { id, status } = action;
       return state.map((todo) => {
-        if (todo.id !== action.id) {
+        if (todo.id !== id || todo.completed === status) {
           return todo;
         }
-        let newStatus = action.status ?? !todo.completed;
+        let newStatus = status ?? !todo.completed;
         return { ...todo, completed: newStatus };
       });
     }

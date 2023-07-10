@@ -24,7 +24,7 @@ const Header = ({ onSubmit }) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderColor: 'black',
     backgroundColor: 'white',
   },
