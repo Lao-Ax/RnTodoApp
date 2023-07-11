@@ -5,6 +5,7 @@ import {
   TODOS_LOADED,
   TODOS_LOADING,
 } from './constants';
+import todo from './components/Todo';
 
 export const fetchStatuses = {
   IDLE: 'idle',
@@ -14,11 +15,16 @@ export const fetchStatuses = {
 };
 
 const initialState = {
-  entities: [
-    { id: '0', text: 'Learn React', completed: true },
-    { id: '1', text: 'Learn Redux', completed: false, color: 'purple' },
-    { id: '2', text: 'Build something fun!', completed: false, color: 'blue' },
-  ],
+  entities: {
+    0: { id: '0', text: 'Learn React', completed: true },
+    1: { id: '1', text: 'Learn Redux', completed: false, color: 'purple' },
+    2: {
+      id: '2',
+      text: 'Build something fun!',
+      completed: false,
+      color: 'blue',
+    },
+  },
   fetchStatus: fetchStatuses.IDLE,
 };
 
@@ -27,26 +33,23 @@ export default function todosReducer(state = initialState, action) {
     case TODO_ADDED: {
       return {
         ...state,
-        entities: [...state.entities, action.todo],
+        entities: { ...state.entities, [action.todo.id]: action.todo },
         fetchStatus: fetchStatuses.IDLE,
       };
     }
     case TODO_STATUS_CHANGED: {
       const { id, status } = action;
-      const newEntities = state.entities.map((todo) => {
-        if (todo.id !== id || todo.completed === status) {
-          return todo;
-        }
-        let newStatus = status ?? !todo.completed;
-        return { ...todo, completed: newStatus };
-      });
-      return { ...state, entities: newEntities };
+      if (state.entities[id].completed === status) {
+        return state;
+      }
+      const updatedTodo = { ...state.entities[id] };
+      updatedTodo.completed = status ?? !updatedTodo.completed;
+      return { ...state, entities: { ...state.entities, [id]: updatedTodo } };
     }
     case TODO_DELETED: {
       const { id: idToDelete } = action;
-      const newEntities = state.entities.filter(
-        (todo) => todo.id !== idToDelete,
-      );
+      const newEntities = { ...state.entities };
+      delete newEntities[idToDelete];
       return { ...state, entities: newEntities };
     }
     case TODOS_LOADED: {
@@ -54,7 +57,7 @@ export default function todosReducer(state = initialState, action) {
         return {
           ...state,
           fetchStatus: fetchStatuses.IDLE,
-          entities: [...state.entities, ...action.todos],
+          entities: { ...state.entities, ...action.todos },
         };
       } else {
         return { ...state, fetchStatus: fetchStatuses.SUCCEEDED };
