@@ -1,4 +1,5 @@
 import { statuses } from '../filters/filterSlice';
+import { createSelector } from 'reselect';
 
 export const selectTodos = (state) => state.todos;
 
@@ -11,16 +12,21 @@ export const selectUncompletedTodosLength = (state) => {
   return state.todos.filter((todo) => !todo.completed).length;
 };
 
-export const selectFilteredTodos = (state) => {
-  const status = state.filters.status;
-  const showAll = status === statuses.ALL;
+export const selectFilteredTodos = createSelector(
+  [selectTodos, (state) => state.filters.status],
+  (todos, status) => {
+    const showAll = status === statuses.ALL;
 
-  if (showAll) {
-    return state.todos;
-  }
+    if (showAll) {
+      return todos;
+    }
 
-  const completed = status === statuses.COMPLETED;
-  return selectTodos(state).filter((todo) => todo.completed === completed);
-};
+    const completed = status === statuses.COMPLETED;
+    return todos.filter((todo) => todo.completed === completed);
+  },
+);
 
-export const selectFilteredTodoIds = (state) => selectFilteredTodos(state).map(todo => todo.id)
+export const selectFilteredTodoIds = createSelector(
+  selectFilteredTodos,
+  (filteredTodos) => filteredTodos.map((todo) => todo.id),
+);

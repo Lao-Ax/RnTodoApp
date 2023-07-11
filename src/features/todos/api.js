@@ -41,16 +41,17 @@ const client = {
   },
 };
 
-// Thunk function
-export async function fetchTodos(dispatch, getState) {
+// Thunk functions
+
+// Note: we could pass to thunk just `export async function fetchTodos(dispatch, getState)`.
+// Here is just a common pattern.
+export const fetchTodos = () => async (dispatch, getState) => {
   const response = await client.get('/fakeApi/todos');
   dispatch(todosLoaded(response.todos));
-}
+};
 
-export function saveNewTodo(text) {
-  return async function (dispatch, getState) {
-    const initialTodo = { text };
-    const response = await client.post('/fakeApi/todos', { todo: initialTodo });
-    dispatch(todoAdded(response.todo));
-  };
-}
+export const saveNewTodo = (text) => async (dispatch) => {
+  const initialTodo = { text };
+  const response = await client.post('/fakeApi/todos', { todo: initialTodo });
+  dispatch(todoAdded(response.todo));
+};
