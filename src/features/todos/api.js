@@ -50,7 +50,6 @@ export const fetchTodos = () => async (dispatch, getState) => {
 };
 
 export const saveNewTodo = (text) => async (dispatch) => {
-  dispatch(todosLoading());
   const initialTodo = { text };
   const response = await client.post('/fakeApi/todos', { todo: initialTodo });
   dispatch(todoAdded(response.todo));
