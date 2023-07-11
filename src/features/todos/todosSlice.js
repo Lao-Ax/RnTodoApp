@@ -1,4 +1,3 @@
-import { v4 as randomUuid } from 'uuid';
 import {
   TODO_ADDED,
   TODO_DELETED,
@@ -7,7 +6,7 @@ import {
   TODOS_LOADING,
 } from './constants';
 
-const fetchStatuses = {
+export const fetchStatuses = {
   IDLE: 'idle',
   LOADING: 'in progress',
   SUCCEEDED: 'succeeded',
@@ -26,7 +25,11 @@ const initialState = {
 export default function todosReducer(state = initialState, action) {
   switch (action.type) {
     case TODO_ADDED: {
-      return { ...state, entities: [...state.entities, action.todo] };
+      return {
+        ...state,
+        entities: [...state.entities, action.todo],
+        fetchStatus: fetchStatuses.IDLE,
+      };
     }
     case TODO_STATUS_CHANGED: {
       const { id, status } = action;
@@ -54,7 +57,7 @@ export default function todosReducer(state = initialState, action) {
           entities: [...state.entities, ...action.todos],
         };
       } else {
-        return state;
+        return { ...state, fetchStatus: fetchStatuses.SUCCEEDED };
       }
     }
     case TODOS_LOADING: {

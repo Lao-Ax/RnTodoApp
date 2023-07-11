@@ -46,12 +46,14 @@ const client = {
 // Note: we could pass to thunk just `export async function fetchTodos(dispatch, getState)`.
 // Here is just a common pattern.
 export const fetchTodos = () => async (dispatch, getState) => {
-  dispatch(todosLoading());
+  // The line below is a hotfix: for some reason redux persistor is not ready, and it saves to the store OLD value (idle) or the value from initial state
+  setTimeout(() => dispatch(todosLoading()), 1);
   const response = await client.get('/fakeApi/todos');
   dispatch(todosLoaded(response.todos));
 };
 
 export const saveNewTodo = (text) => async (dispatch) => {
+  dispatch(todosLoading());
   const initialTodo = { text };
   const response = await client.post('/fakeApi/todos', { todo: initialTodo });
   dispatch(todoAdded(response.todo));

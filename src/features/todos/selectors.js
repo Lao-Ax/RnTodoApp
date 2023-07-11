@@ -31,3 +31,5 @@ export const selectFilteredTodoIds = createSelector(
   [selectFilteredTodos],
   (filteredTodos) => filteredTodos.map((todo) => todo.id),
 );
+
+export const selectLoadingStatus = (state) => state.todos.fetchStatus
