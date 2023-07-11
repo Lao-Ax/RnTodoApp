@@ -5,3 +5,4 @@ export const TODO_STATUS_CHANGED = `${NAME}/todoStatusChanged`;
 export const TODO_DELETED = `${NAME}/todoDeleted`;
 export const DELETE_ALL_COMPLETED = `${NAME}/deleteAllCompleted`;
 export const TODOS_LOADED = `${NAME}/todosLoaded`;
+export const TODOS_LOADING = `${NAME}/todosLoading`;

@@ -1,4 +1,4 @@
-import { todoAdded, todosLoaded } from './actions';
+import { todoAdded, todosLoaded, todosLoading } from './actions';
 import { v4 as randomUuid } from 'uuid';
 
 const client = {
@@ -46,6 +46,7 @@ const client = {
 // Note: we could pass to thunk just `export async function fetchTodos(dispatch, getState)`.
 // Here is just a common pattern.
 export const fetchTodos = () => async (dispatch, getState) => {
+  dispatch(todosLoading());
   const response = await client.get('/fakeApi/todos');
   dispatch(todosLoaded(response.todos));
 };
