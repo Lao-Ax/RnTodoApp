@@ -1,18 +1,6 @@
-import {
-  TODO_ADDED,
-  TODO_DELETED,
-  TODO_STATUS_CHANGED,
-  TODOS_LOADED,
-  TODOS_LOADING,
-} from './constants';
+import { TODO_ADDED, TODO_DELETED, TODO_STATUS_CHANGED } from './constants';
 import { createReducer } from '@reduxjs/toolkit';
-import {
-  todoAdded,
-  todoDeleted,
-  todosLoaded,
-  todosLoading,
-  todoStatusChanged,
-} from './actions';
+import { fetchTodos, saveNewTodo } from './api';
 
 export const fetchStatuses = {
   IDLE: 'idle',
@@ -52,16 +40,22 @@ const reducer = createReducer(initialState, (builder) => {
       const { id: idToDelete } = action;
       delete state.entities[idToDelete];
     })
-    .addCase(TODOS_LOADED, (state, action) => {
+    // Thunk actions
+    .addCase(fetchTodos.pending, (state, action) => {
+      state.fetchStatus = fetchStatuses.LOADING;
+    })
+    .addCase(fetchTodos.fulfilled, (state, action) => {
       if (Object.keys(state.entities).length < 3) {
         state.fetchStatus = fetchStatuses.IDLE;
-        state.entities = Object.assign(state.entities, action.todos);
+        state.entities = Object.assign(state.entities, action.payload);
       } else {
         state.fetchStatus = fetchStatuses.SUCCEEDED;
       }
     })
-    .addCase(TODOS_LOADING, (state, action) => {
-      state.fetchStatus = fetchStatuses.LOADING;
+    .addCase(saveNewTodo.fulfilled, (state, action) => {
+      const todo = action.payload;
+      state.entities[todo.id] = todo;
+      state.fetchStatus = fetchStatuses.IDLE;
     });
 });
 

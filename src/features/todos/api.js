@@ -1,5 +1,6 @@
-import { todoAdded, todosLoaded, todosLoading } from './actions';
 import { v4 as randomUuid } from 'uuid';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { FETCH_TODOS, SAVE_TODO } from './constants';
 
 const client = {
   get: async (endpoint) => {
@@ -42,15 +43,20 @@ const client = {
 
 // Note: we could pass to thunk just `export async function fetchTodos(dispatch, getState)`.
 // Here is just a common pattern.
-export const fetchTodos = () => async (dispatch, getState) => {
-  // The line below is a hotfix: for some reason redux persistr is not ready, and it saves to the store OLD value (idle) or the value from initial state
-  setTimeout(() => dispatch(todosLoading()), 1);
-  const response = await client.get('/fakeApi/todos');
-  dispatch(todosLoaded(response.todos));
-};
+// export const fetchTodos = () => async (dispatch, getState) => {
+//   // The line below is a hotfix: for some reason redux persistr is not ready, and it saves to the store OLD value (idle) or the value from initial state
+//   setTimeout(() => dispatch(todosLoading()), 1);
+//   const response = await client.get('/fakeApi/todos');
+//   dispatch(todosLoaded(response.todos));
+// };
 
-export const saveNewTodo = (text) => async (dispatch) => {
+export const fetchTodos = createAsyncThunk(FETCH_TODOS, async () => {
+  const response = await client.get('/fakeApi/todos');
+  return response.todos;
+});
+
+export const saveNewTodo = createAsyncThunk(SAVE_TODO, async (text) => {
   const initialTodo = { text };
   const response = await client.post('/fakeApi/todos', { todo: initialTodo });
-  dispatch(todoAdded(response.todo));
-};
+  return response.todo;
+});
