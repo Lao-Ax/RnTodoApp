@@ -14,7 +14,7 @@ const Footer = () => {
   const { status } = useSelector(selectFilters);
   const handleStatusChange = useCallback(
     (status) => dispatch(statusFilterChanged(status)),
-    [status],
+    [],
   );
 
   // TODO AP: Use Container Components for all that staff
