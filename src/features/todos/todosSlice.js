@@ -53,7 +53,7 @@ export default function todosReducer(state = initialState, action) {
       return { ...state, entities: newEntities };
     }
     case TODOS_LOADED: {
-      if (state.entities.length < 3) {
+      if (Object.keys(state.entities).length < 3) {
         return {
           ...state,
           fetchStatus: fetchStatuses.IDLE,

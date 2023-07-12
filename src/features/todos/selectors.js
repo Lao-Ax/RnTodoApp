@@ -1,5 +1,5 @@
 import { statuses } from '../filters/filterSlice';
-import { createSelector } from 'reselect';
+import { createSelector } from '@reduxjs/toolkit';
 
 export const selectTodos = (state) => state.todos.entities;
 

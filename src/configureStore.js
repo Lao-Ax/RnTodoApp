@@ -1,10 +1,9 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { counterReducer } from './features/counter/reducer';
 import todosReducer from './features/todos/todosSlice';
 import { filterReducer } from './features/filters/filterSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { persistStore, persistReducer } from 'redux-persist';
-import thunkMiddleware from 'redux-thunk';
+import { persistStore, persistCombineReducers } from 'redux-persist';
 import { NAME as counterSate } from './features/counter/constants';
 import {
   FLUSH,
@@ -22,22 +21,20 @@ const persistConfig = {
   blacklist: [counterSate],
 };
 
-const rootReducer = combineReducers({
+const persistedRootReducer = persistCombineReducers(persistConfig, {
   [counterSate]: counterReducer,
   todos: todosReducer,
   filters: filterReducer,
 });
-const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: persistedRootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    })
-      .concat(logger)
-      .concat(thunkMiddleware),
+    }).concat(logger),
 });
+
 export const persistor = persistStore(store);

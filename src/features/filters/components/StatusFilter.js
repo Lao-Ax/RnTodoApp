@@ -18,7 +18,6 @@ const StatusFilter = ({ value: status, onChange }) => {
     );
   });
 
-  console.log('@@@ render StatusFilter');
   return (
     <View style={styles.container}>
       <Text>Filter by Status</Text>
