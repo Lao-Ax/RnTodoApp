@@ -5,7 +5,14 @@ import {
   TODOS_LOADED,
   TODOS_LOADING,
 } from './constants';
-import todo from './components/Todo';
+import { createReducer } from '@reduxjs/toolkit';
+import {
+  todoAdded,
+  todoDeleted,
+  todosLoaded,
+  todosLoading,
+  todoStatusChanged,
+} from './actions';
 
 export const fetchStatuses = {
   IDLE: 'idle',
@@ -28,45 +35,34 @@ const initialState = {
   fetchStatus: fetchStatuses.IDLE,
 };
 
-export default function todosReducer(state = initialState, action) {
-  switch (action.type) {
-    case TODO_ADDED: {
-      return {
-        ...state,
-        entities: { ...state.entities, [action.todo.id]: action.todo },
-        fetchStatus: fetchStatuses.IDLE,
-      };
-    }
-    case TODO_STATUS_CHANGED: {
+const reducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(TODO_ADDED, (state, action) => {
+      state.entities[action.todo.id] = action.todo;
+      state.fetchStatus = fetchStatuses.IDLE;
+    })
+    .addCase(TODO_STATUS_CHANGED, (state, action) => {
       const { id, status } = action;
       if (state.entities[id].completed === status) {
-        return state;
+        return;
       }
-      const updatedTodo = { ...state.entities[id] };
-      updatedTodo.completed = status ?? !updatedTodo.completed;
-      return { ...state, entities: { ...state.entities, [id]: updatedTodo } };
-    }
-    case TODO_DELETED: {
+      state.entities[id].completed = status ?? !state.entities[id].completed;
+    })
+    .addCase(TODO_DELETED, (state, action) => {
       const { id: idToDelete } = action;
-      const newEntities = { ...state.entities };
-      delete newEntities[idToDelete];
-      return { ...state, entities: newEntities };
-    }
-    case TODOS_LOADED: {
+      delete state.entities[idToDelete];
+    })
+    .addCase(TODOS_LOADED, (state, action) => {
       if (Object.keys(state.entities).length < 3) {
-        return {
-          ...state,
-          fetchStatus: fetchStatuses.IDLE,
-          entities: { ...state.entities, ...action.todos },
-        };
+        state.fetchStatus = fetchStatuses.IDLE;
+        state.entities = Object.assign(state.entities, action.todos);
       } else {
-        return { ...state, fetchStatus: fetchStatuses.SUCCEEDED };
+        state.fetchStatus = fetchStatuses.SUCCEEDED;
       }
-    }
-    case TODOS_LOADING: {
-      return { ...state, fetchStatus: fetchStatuses.LOADING };
-    }
-    default:
-      return state;
-  }
-}
+    })
+    .addCase(TODOS_LOADING, (state, action) => {
+      state.fetchStatus = fetchStatuses.LOADING;
+    });
+});
+
+export default reducer;
