@@ -1,18 +1,15 @@
 import React from 'react';
-import CounterContainer from '../features/counter/components/CounterContainer';
 import Header from '../features/todos/components/Header';
 import { saveNewTodo } from '../features/todos/api';
 import TodoList from '../features/todos/components/TodoList';
 import Footer from '../features/filters/components/Footer';
 
-export default () => {
+export default ({ navigation }) => {
   return (
     <>
-      <CounterContainer />
       <Header onSubmit={saveNewTodo} />
       <TodoList />
       <Footer />
-      {/*<LearnReact isDarkMode={isDarkMode} backgroundStyle={backgroundStyle} />*/}
     </>
   );
 };
