@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { counterReducer } from './features/counter/reducer';
+import {
+  counterReducer,
+  NAME as counterSateName,
+} from './features/counter/reducer';
 import todosReducer from './features/todos/todosSlice';
 import { filterReducer } from './features/filters/filterSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistCombineReducers } from 'redux-persist';
-import { NAME as counterSate } from './features/counter/constants';
 import {
   FLUSH,
   PAUSE,
@@ -18,23 +20,28 @@ import { logger } from './customMIddleware';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage, // TODO AP: Use MMKV storage
-  blacklist: [counterSate],
+  blacklist: [counterSateName],
 };
 
 const persistedRootReducer = persistCombineReducers(persistConfig, {
-  [counterSate]: counterReducer,
+  [counterSateName]: counterReducer,
   todos: todosReducer,
   filters: filterReducer,
 });
 
 export const store = configureStore({
   reducer: persistedRootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
+  middleware: (getDefaultMiddleware) => {
+    let middlewares = getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(logger),
+    });
+    if (process.env.NODE_ENV === 'development') {
+      middlewares = middlewares.concat(logger);
+    }
+    return middlewares;
+  },
 });
 
 export const persistor = persistStore(store);

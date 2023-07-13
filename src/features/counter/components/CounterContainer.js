@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Counter } from './Counter';
 import { bindActionCreators } from '@reduxjs/toolkit';
-import { increment } from '../actions';
+import { decremented, incremented } from '../reducer';
 import { counterValue } from '../selectors';
 
 function mapStateToProps(state) {
@@ -10,9 +10,14 @@ function mapStateToProps(state) {
   };
 }
 
+// This one added, because bindActionCreators passes an argument to the action creator, which is not serializable (for persist)
+const increment = () => incremented();
+const decrement = () => decremented();
+
 function mapDispatchToProps(dispatch) {
   return {
-    onPress: bindActionCreators(increment, dispatch),
+    onIncPress: bindActionCreators(increment, dispatch),
+    onDecPress: bindActionCreators(decrement, dispatch),
   };
 }
 

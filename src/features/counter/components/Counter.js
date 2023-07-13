@@ -1,18 +1,25 @@
-import { Button, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
-const styles = {
-  view: {
+export const Counter = ({ value, onIncPress, onDecPress }) => {
+  return (
+    <View style={styles.container}>
+      <Text>{value}</Text>
+      <View style={styles.buttonsContainer}>
+        <Button title={'++'} onPress={onIncPress} />
+        <Button title={'--'} onPress={onDecPress} />
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
     paddingTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
-};
-
-export const Counter = ({ value, onPress }) => {
-  return (
-    <View style={styles.view}>
-      <Text>{value}</Text>
-      <Button title={'Press Me'} onPress={onPress} />
-    </View>
-  );
-};
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});
