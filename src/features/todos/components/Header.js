@@ -26,6 +26,7 @@ const Header = ({ onSubmit }) => {
           isLoading ? 'Please, wait a bit.' : 'What are you going to do?'
         }
         onSubmitEditing={handleSubmit}
+        style={styles.inputContainer}
       />
       {isLoading && <ActivityIndicator animating={true} />}
     </View>
@@ -39,6 +40,9 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: 'black',
     backgroundColor: 'white',
+  },
+  inputContainer: {
+    flexGrow: 1,
   },
 });
 
