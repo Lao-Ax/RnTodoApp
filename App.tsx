@@ -1,12 +1,21 @@
 import React from 'react';
-import { SafeAreaView, StatusBar, useColorScheme } from 'react-native';
+import {
+  SafeAreaView,
+  StatusBar,
+  useColorScheme,
+  View,
+  Text,
+} from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import TodosLandingScreen from './src/screens/TodosLandingScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TodoDetailsScreen from './src/screens/TodoDetailsScreen';
+import { Icon } from '@rneui/themed';
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const commonScreenOptions = {
   headerStyle: {
@@ -18,6 +27,44 @@ const commonScreenOptions = {
     fontSize: 12,
   },
 };
+const commonTabOptions = {
+  headerShown: false,
+};
+
+// TODO DELETE
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+const TodosStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      headerBackTitle: 'Go back, please.',
+      ...commonScreenOptions,
+    }}>
+    <Stack.Screen
+      name="TodoList"
+      component={TodosLandingScreen}
+      options={{ title: 'Todo list' }}
+    />
+    <Stack.Screen
+      name="Todo"
+      component={TodoDetailsScreen}
+      options={({ route }) => ({
+        title: `Todo: ${route?.params?.id}`,
+        headerStyle: {
+          // options could be overridden
+          backgroundColor: '#1ef489',
+        },
+        headerTintColor: '#0b34e1',
+      })}
+    />
+  </Stack.Navigator>
+);
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -34,28 +81,22 @@ function App(): JSX.Element {
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={backgroundStyle.backgroundColor}
         />
-        <Stack.Navigator
-          screenOptions={{
-            headerBackTitle: 'Go back, please.',
-            ...commonScreenOptions,
-          }}>
-          <Stack.Screen
-            name="TodoList"
-            component={TodosLandingScreen}
-            options={{ title: 'Todo list' }}
+        <Tab.Navigator screenOptions={commonTabOptions}>
+          <Tab.Screen
+            name="Home"
+            component={TodosStack}
+            options={{
+              tabBarIcon: () => <Icon name={'checklist'} />,
+            }}
           />
-          <Stack.Screen
-            name="Todo"
-            component={TodoDetailsScreen}
-            options={({ route }) => ({
-              title: `Todo: ${route?.params?.id}`,
-              headerStyle: { // options could be overridden
-                backgroundColor: '#1ef489',
-              },
-              headerTintColor: '#0b34e1',
-            })}
+          <Tab.Screen
+            name="Settings"
+            component={SettingsScreen}
+            options={{
+              tabBarIcon: () => <Icon name={'settings'} />,
+            }}
           />
-        </Stack.Navigator>
+        </Tab.Navigator>
       </SafeAreaView>
     </NavigationContainer>
   );
