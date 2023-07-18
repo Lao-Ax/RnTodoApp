@@ -3,6 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { _selectors } from './todosSlice';
 
 export const selectTodos = _selectors.selectTodos;
+export const selectIds = _selectors.selectIds;
 
 export const selectTodoById = _selectors.selectTodoById;
 

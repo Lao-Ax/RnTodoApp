@@ -8,6 +8,17 @@ import TodoDetailsScreen from './src/screens/TodoDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
+const commonScreenOptions = {
+  headerStyle: {
+    backgroundColor: '#f4511e',
+  },
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+};
+
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -17,22 +28,36 @@ function App(): JSX.Element {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <NavigationContainer>
-        <Stack.Navigator>
+    <NavigationContainer>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <Stack.Navigator
+          screenOptions={{
+            headerBackTitle: 'Go back, please.',
+            ...commonScreenOptions,
+          }}>
           <Stack.Screen
             name="TodoList"
             component={TodosLandingScreen}
             options={{ title: 'Todo list' }}
           />
-          <Stack.Screen name="Todo" component={TodoDetailsScreen} />
+          <Stack.Screen
+            name="Todo"
+            component={TodoDetailsScreen}
+            options={({ route }) => ({
+              title: `Todo: ${route?.params?.id}`,
+              headerStyle: { // options could be overridden
+                backgroundColor: '#1ef489',
+              },
+              headerTintColor: '#0b34e1',
+            })}
+          />
         </Stack.Navigator>
-      </NavigationContainer>
-    </SafeAreaView>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
 

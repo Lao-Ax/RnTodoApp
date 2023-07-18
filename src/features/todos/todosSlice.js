@@ -63,8 +63,8 @@ const reducer = createReducer(initialState, (builder) => {
 });
 
 // adapter can return some selectors like. But it is quite hard to debug. NOTE the return types!
-const { selectAll: selectTodos, selectById: selectTodoById } =
+const { selectAll: selectTodos, selectById: selectTodoById, selectIds } =
   todosAdapter.getSelectors((state) => state.todos);
-export const _selectors = { selectTodos, selectTodoById };
+export const _selectors = { selectTodos, selectTodoById, selectIds };
 
 export default reducer;
