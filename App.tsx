@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
+  Button,
   SafeAreaView,
   StatusBar,
+  Text,
   useColorScheme,
   View,
-  Text,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import TodosLandingScreen from './src/screens/TodosLandingScreen';
@@ -32,10 +33,21 @@ const commonTabOptions = {
 };
 
 // TODO DELETE
-function SettingsScreen() {
+function SettingsScreen({ navigation }) {
+  const count = useRef(0);
+
+  const handlePress = () => {
+    count.current += 1;
+    navigation.setOptions({ tabBarBadge: count.current });
+  };
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Settings!</Text>
+      <Button title={'Add badge counter'} onPress={handlePress}></Button>
+      <Button
+        title={'Back to Todo List'}
+        onPress={() => navigation.navigate('ToDos')}></Button>
     </View>
   );
 }
@@ -83,7 +95,7 @@ function App(): JSX.Element {
         />
         <Tab.Navigator screenOptions={commonTabOptions}>
           <Tab.Screen
-            name="Home"
+            name="ToDos"
             component={TodosStack}
             options={{
               tabBarIcon: () => <Icon name={'checklist'} />,
