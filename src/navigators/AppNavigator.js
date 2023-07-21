@@ -14,6 +14,7 @@ const AppNavigator = () => (
       name="ToDosTab"
       component={TodosStack}
       options={{
+        title: "Todo List",
         tabBarIcon: () => <Icon name={'checklist'} />,
       }}
     />
@@ -21,6 +22,7 @@ const AppNavigator = () => (
       name="SettingsTab"
       component={SettingsStack}
       options={{
+        title: "Settings",
         tabBarIcon: () => <Icon name={'settings'} />,
         headerShown: true,
         headerTitle: SettingsTitle,
