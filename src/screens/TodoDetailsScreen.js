@@ -39,6 +39,7 @@ export default ({ navigation, route }) => {
           title="Update the title"
           onPress={() => navigation.setOptions({ title: 'Updated!' })}
         />
+        {/*<Button title="Open User Info" onPress={() => { navigation.navigate('User Info')}} />*/}
       </View>
     </>
   );
