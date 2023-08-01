@@ -44,7 +44,7 @@ export default ({ navigation, route }) => {
           onPress={() => {
             navigation.navigate('SettingsTab', {
               screen: 'User Info',
-              initial: true,
+              initial: false,
             });
           }}
         />
