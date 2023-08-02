@@ -1,27 +1,13 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { selectUncompletedTodosLength } from '../../todos/selectors';
-import { selectFilters } from '../selectors';
-import RemainingTodos from './RemainingTodos';
-import StatusFilter from './StatusFilter';
-import { statusFilterChanged } from '../actions';
+import React from 'react';
+import RemainingTodos from './RemainingTodosContainer';
+import StatusFilter from './StatusFilterContainer';
 import { StyleSheet, View } from 'react-native';
 
 const Footer = () => {
-  const dispatch = useDispatch();
-  const todosRemaining = useSelector(selectUncompletedTodosLength);
-  const { status } = useSelector(selectFilters);
-  const handleStatusChange = useCallback(
-    (status) => dispatch(statusFilterChanged(status)),
-    [],
-  );
-
-  // TODO AP: Use Container Components for all that staff
   return (
     <View style={styles.container}>
-      <RemainingTodos count={todosRemaining} />
-      <StatusFilter value={status} onChange={handleStatusChange} />
+      <RemainingTodos />
+      <StatusFilter />
     </View>
   );
 };

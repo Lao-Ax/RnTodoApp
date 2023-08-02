@@ -1,6 +1,5 @@
 import { statuses } from '../filterSlice';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { memo } from 'react';
 
 const StatusFilter = ({ value: status, onChange }) => {
   const renderedFilters = Object.keys(statuses).map((key) => {
@@ -42,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(StatusFilter);
+export default StatusFilter;
